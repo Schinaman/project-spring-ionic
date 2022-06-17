@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, MenuController, NavController } from 'ionic-angular';
+import { CredenciaisDTO } from '../../models/credenciais.dto';
 
 @IonicPage()
 @Component({
@@ -8,20 +9,26 @@ import { IonicPage, MenuController, NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+creds: CredenciaisDTO = {
+  email: "",
+  senha:""
+}
 
+constructor(public navCtrl: NavController, public menu: MenuController) {
+
+}
+
+ionViewWillEnter() {
+  this.menu.swipeEnable(false);
   }
-  
-  ionViewWillEnter() {
-    this.menu.swipeEnable(false);
-    }
-  
-  ionViewDidLeave() {
-    this.menu.swipeEnable(true);
-    }
-  
-  login(){
-    this.navCtrl.setRoot('CategoriasPage');
+
+ionViewDidLeave() {
+  this.menu.swipeEnable(true);
   }
+
+login(){
+  console.log(this.creds);
+  this.navCtrl.setRoot('CategoriasPage');
+}
 
 }
