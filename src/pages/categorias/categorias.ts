@@ -23,10 +23,9 @@ bucketUrl: string = API_CONFIG.bucketBaseUrl
     this.categoriaService.findAll()
       .subscribe(response => {
         this.items = response;
-        console.log(response);
+        //console.log(response);
       },
-      error => {console.log(error);
-      })
+      error => {})
     console.log();
   }
 
