@@ -32,8 +32,10 @@ ionViewDidLeave() {
 
 login(){
   this.auth.authenticate(this.creds)
-  .subscribe(response => {console.log(response.headers.get('Authorization'));
-  this.navCtrl.setRoot('CategoriasPage');
+  .subscribe(response => {
+    this.auth.sucessfulLogin(response.headers.get('Authorization'));
+    //console.log(response.headers.get('Authorization')); //imprime hearder Authorization (Bearer Token)
+    this.navCtrl.setRoot('CategoriasPage');
 }),
 error => {};
   
