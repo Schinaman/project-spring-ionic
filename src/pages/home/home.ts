@@ -46,8 +46,12 @@ login(){
     //console.log(response.headers.get('Authorization')); //imprime hearder Authorization (Bearer Token)
     this.navCtrl.setRoot('CategoriasPage');
 }),
-error => {};
-  
+error => {}; 
 }
+
+signup(){
+  this.navCtrl.push('SignupPage')
+}
+
 
 }
