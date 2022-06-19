@@ -23,6 +23,16 @@ export class AuthService{
                 responseType: 'text' //como retorna reposta de corpo vazio não pode ser json senão ele tentará fazer um parse
             } )
     }
+    
+    refreshToken(){
+        return this.http.post( //retornará um observable da resposta
+            `${API_CONFIG.baseUrl}/auth/refresh_token`, 
+            {},
+            {
+                observe: 'response', // especificação para ter acesso ao hearder da minha resposta 
+                responseType: 'text' //como retorna reposta de corpo vazio não pode ser json senão ele tentará fazer um parse
+            } )
+    }
 
     sucessfulLogin(authorizationValue : string){
         let tok = authorizationValue.substring(7);
@@ -36,4 +46,6 @@ export class AuthService{
     logout() {
         this.storage.setLocalUser(null);
     }
+
+    
 }
