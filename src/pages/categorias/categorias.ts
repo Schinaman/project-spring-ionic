@@ -29,5 +29,9 @@ bucketUrl: string = API_CONFIG.bucketBaseUrl
     console.log();
   }
 
+  showProdutos(){
+    this.navCtrl.push('ProdutosPage');
+  }
+
 
 }
