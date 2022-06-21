@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
 import { API_CONFIG } from '../../config/api.config';
+import { ProdutoService } from '../../services/domain/produto.service';
 
 @IonicPage()
 @Component({
@@ -12,21 +13,17 @@ export class ProdutosPage {
 
   items : ProdutoDTO[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, //consigo obter parametros passados na navegacao
+    public produtoService: ProdutoService) {
   }
 
   ionViewDidLoad() {
-    this.items = [
-      {
-        id: "1",
-        name: 'Mouse',
-        price: 80.99
+    let categoria_id = this.navParams.get('categoria_id');   //nome do atributo que veio do push em categoria que chama a pag de prod
+    this.produtoService.findByCategoria(categoria_id)
+      .subscribe(response => {
+        this.items = response['content'];
       },
-      {
-        id: "2",
-        name: 'Teclado',
-        price: 100.00
-      }
-    ]
+      error => {});
   };
 }
