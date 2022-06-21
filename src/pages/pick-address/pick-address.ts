@@ -22,11 +22,11 @@ export class PickAddressPage {
 
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
-    console.log(this.clienteService.findBYEmail(localUser.email));
     if (localUser && localUser.email){
+      console.log(this.clienteService.findBYEmail(localUser.email));
       this.clienteService.findBYEmail(localUser.email)
         .subscribe(response => {
-          this.items = response['enderecos'] //nesta sintaxe ['enderecos'] o compilador não reclama se o objeto tem enderecos ou nao
+          this.items = response['addresses'] //nesta sintaxe ['enderecos'] o compilador não reclama se o objeto tem enderecos ou nao. em vez de buscar do DTO busca da BD ("addresses").
         },
         error => {
           if (error.status==403){
