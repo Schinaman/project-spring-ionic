@@ -13,8 +13,8 @@ export class ClienteService {
         public storage: StorageService){
         }
     
-    findBYEmail(email: string): Observable<ClienteDTO>{
-        return this.http.get<ClienteDTO>(
+    findBYEmail(email: string){ //: Observable<ClienteDTO>  -- tipagem que retornava apenas os campos definidos no dto
+        return this.http.get( //http retorna o objto da requisicao
             `${API_CONFIG.baseUrl}/clients/email?value=${email}`);
     }
 

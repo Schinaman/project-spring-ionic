@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { EnderecoDTO } from '../../models/endereco.dto';
+import { ClienteService } from '../../services/domain/cliente.service';
+import { StorageService } from '../../services/storage.service';
 
 @IonicPage()
 @Component({
@@ -13,44 +15,28 @@ export class PickAddressPage {
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams ) {
+    public navParams: NavParams,
+    public storage: StorageService,
+    public clienteService: ClienteService ) {
   }
 
   ionViewDidLoad() {
-    this.items = [
-      {
-        id: "1",
-        logradouro: "Rua Quinze de Novembro",
-        number: "300",
-        complement: "Apto 200",
-        bairro: "Santa Mônica",
-        cep: "48293822",
-        city: {
-          id: "1",
-          name: "Uberlândia",
-          state: {
-            id: "1",
-            name: "Minas Gerais"
+    let localUser = this.storage.getLocalUser();
+    console.log(this.clienteService.findBYEmail(localUser.email));
+    if (localUser && localUser.email){
+      this.clienteService.findBYEmail(localUser.email)
+        .subscribe(response => {
+          this.items = response['enderecos'] //nesta sintaxe ['enderecos'] o compilador não reclama se o objeto tem enderecos ou nao
+        },
+        error => {
+          if (error.status==403){
+            this.navCtrl.setRoot('HomePage');
           }
-        }
-      },
-      {
-        id: "2",
-        logradouro: "Rua Alexandre Toledo da Silva",
-        number: "405",
-        complement: null,
-        bairro: "Centro",
-        cep: "88933822",
-        city: {
-          id: "3",
-          name: "São Paulo",
-          state: {
-            id: "2",
-            name: "São Paulo"
-          }
-        }
-      }
-    ];
+        });   
+    }
+    else{
+      this.navCtrl.setRoot('HomePage');
+    }
   }
 
 }
