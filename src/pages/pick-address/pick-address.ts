@@ -14,7 +14,7 @@ import { StorageService } from '../../services/storage.service';
 export class PickAddressPage {
 
   items: EnderecoDTO[];
-  pedido: Ped idoDTO;
+  pedido: PedidoDTO;
 
   constructor(
     public navCtrl: NavController, 
@@ -53,6 +53,6 @@ export class PickAddressPage {
 
   nextPage(item: EnderecoDTO) {
     this.pedido.addressDelivery = {id: item.id};
-    console.log(this.pedido); 
+    this.navCtrl.push('PaymentPage', {pedido: this.pedido});
   }
 }
