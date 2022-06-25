@@ -13,12 +13,15 @@ export class ClienteService {
         public storage: StorageService){
         }
     
-    findBYEmail(email: string){ //: Observable<ClienteDTO>  -- tipagem que retornava apenas os campos definidos no dto
+    findByEmail(email: string){ //: Observable<ClienteDTO>  -- tipagem que retornava apenas os campos definidos no dto
         return this.http.get( //http retorna o objto da requisicao
             `${API_CONFIG.baseUrl}/clients/email?value=${email}`);
     }
-
-
+    
+    findById(id: string){ 
+        return this.http.get( 
+            `${API_CONFIG.baseUrl}/clients/${id}`);
+    }
     
     getImageFromBucket(id : string) : Observable<any> {
         let url = `${API_CONFIG.bucketBaseUrl}/cp${id}.jpg`

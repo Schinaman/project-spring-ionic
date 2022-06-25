@@ -21,7 +21,10 @@ export class PaymentPage {
     public navParams: NavParams,
     public formBuilder: FormBuilder) {
 
+      console.log("NAV PARAMS: ");
+      console.log(this.navParams.get('pedido'));
     this.pedido = this.navParams.get('pedido'); //recupera pedido do push em pickaddress.nextPage
+    console.log(this.pedido);
     this.formGroup = this.formBuilder.group({
       numberOfParcels: [1, Validators.required],
       "@type": ["pagamentoComCartao", Validators.required]
@@ -29,8 +32,15 @@ export class PaymentPage {
   }
 
   nextPage(){
-    this.pedido = this.formGroup.value
-    console.log(this.pedido)
+    console.log("formGroup.value: ");
+    console.log(this.formGroup.controls['@type'].value);
+    console.log(this.formGroup.controls['numberOfParcels'].value);
+    this.pedido.payment['@type'] = this.formGroup.controls['@type'].value;
+    this.pedido.payment['numberOfParcels'] = this.formGroup.controls['numberOfParcels'].value;
+    //this.pedido = this.formGroup.value;
+    console.log("PEDIDO PAYMENT: ");
+    console.log(this.pedido);
+    this.navCtrl.setRoot('OrderConfirmationPage', {pedido: this.pedido});
   }
 
 }

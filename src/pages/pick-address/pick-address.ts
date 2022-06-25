@@ -27,8 +27,7 @@ export class PickAddressPage {
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
     if (localUser && localUser.email){
-      console.log(this.clienteService.findBYEmail(localUser.email));
-      this.clienteService.findBYEmail(localUser.email)
+      this.clienteService.findByEmail(localUser.email)
         .subscribe(response => {
           this.items = response['addresses']; //nesta sintaxe ['enderecos'] o compilador não reclama se o objeto tem enderecos ou nao. em vez de buscar do DTO busca da BD ("addresses").
           
@@ -36,7 +35,7 @@ export class PickAddressPage {
           this.pedido = {
             client: {id:response['id']},
             addressDelivery: null,
-            payment: null,
+            payment: {numberOfParcels: 1, '@type': "pagamentoComCartao"}, //não estava conseguindo atribuir valor enquanto era null, então padrao de compra passou a ser este com instanciacao
             items: cart.items.map(x => {return {quantity: x.quantity, product: {id: x.produto.id}}})
           }
         },
@@ -53,6 +52,9 @@ export class PickAddressPage {
 
   nextPage(item: EnderecoDTO) {
     this.pedido.addressDelivery = {id: item.id};
+    console.log('PEDIDO PICK ADDRESS: ');
+    console.log(this.pedido);
+    console.log({pedido: this.pedido});
     this.navCtrl.push('PaymentPage', {pedido: this.pedido});
   }
 }
