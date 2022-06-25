@@ -20,6 +20,10 @@ export class ProdutosPage {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
     let categoria_id = this.navParams.get('categoria_id');   //nome do atributo que veio do push em categoria que chama a pag de prod
     let loader = this.presentLoading();
 
@@ -58,5 +62,10 @@ export class ProdutosPage {
     return loader;
   }
 
-
+  doRefresh(refresher) {
+    this.loadData();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
 }
