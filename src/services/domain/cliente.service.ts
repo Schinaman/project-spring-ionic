@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
 import { API_CONFIG } from "../../config/api.config";
 import { ClienteDTO } from "../../models/cliente.dto";
+import { ImageUtilService } from "../image.util.service";
 import { StorageService } from "../storage.service";
 
 
@@ -10,7 +11,8 @@ import { StorageService } from "../storage.service";
 export class ClienteService {
 
     constructor(public http: HttpClient,
-        public storage: StorageService){
+        public storage: StorageService,
+        public imageUtilService: ImageUtilService){
         }
     
     findByEmail(email: string){ //: Observable<ClienteDTO>  -- tipagem que retornava apenas os campos definidos no dto
@@ -32,6 +34,21 @@ export class ClienteService {
         return this.http.post(
             `${API_CONFIG.baseUrl}/clients`, 
             obj,
+            { 
+                observe: 'response', 
+                responseType: 'text'
+            }
+        ); 
+    }
+
+    uploadPicture(picture){
+        let pictureBlob = this.imageUtilService.dataUriToBlob(picture);
+        let formData: FormData = new FormData();
+        formData.set('file', pictureBlob, 'file.png');
+
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/clients/picture`, 
+            formData,
             { 
                 observe: 'response', 
                 responseType: 'text'
